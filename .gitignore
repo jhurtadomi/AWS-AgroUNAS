@@ -1,0 +1,19 @@
+# Node API
+app/agromarket-api/node_modules
+app/agromarket-api/npm-debug.log*
+app/agromarket-api/.env
+
+# Terraform
+infra/.terraform/
+infra/*.tfstate
+infra/*.tfstate.backup
+infra/crash.log
+
+# Logs
+*.log
+
+# VSCode
+.vscode/
+
+# Otros
+.DS_Store

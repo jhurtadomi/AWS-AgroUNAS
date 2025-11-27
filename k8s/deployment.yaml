@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agromarket-api
+  namespace: agromarket
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: agromarket-api
+  template:
+    metadata:
+      labels:
+        app: agromarket-api
+    spec:
+      containers:
+        - name: agromarket-api
+          image: 600222957143.dkr.ecr.us-east-1.amazonaws.com/agromarket-api:v2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: agromarket-config
+            - secretRef:
+                name: agromarket-auth
