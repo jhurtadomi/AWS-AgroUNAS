@@ -1,46 +1,126 @@
+// src/routes/inventory.routes.js
 const express = require('express');
 const router = express.Router();
+const configJson = require('../../config/default.json');
 
-// Datos en memoria solo para demo
-let inventario = [
-  { id: 1, producto: 'Café', stock: 120, unidad: 'sacos' },
-  { id: 2, producto: 'Cacao', stock: 80, unidad: 'sacos' },
-  { id: 3, producto: 'Plátano', stock: 200, unidad: 'cajas' }
+// Inventario en memoria; si no hay en config, ponemos algunos por defecto
+let inventory = configJson.inventory || [
+  { producto: 'Café', stock: 120, unidad: 'sacos' },
+  { producto: 'Cacao', stock: 80, unidad: 'sacos' },
+  { producto: 'Plátano', stock: 200, unidad: 'cajas' }
 ];
 
-// GET inventario
+// Solo admin / almacen pueden modificar inventario
+function requireInventoryRole(req, res, next) {
+  const role = req.user?.role;
+  if (!role || !['admin', 'almacen'].includes(role.toLowerCase())) {
+    return res
+      .status(403)
+      .json({ error: 'No autorizado para gestionar inventario' });
+  }
+  next();
+}
+
+// Validar datos de entrada
+function validateInventoryInput(producto, stock, unidad) {
+  if (!producto || !unidad || stock === undefined) {
+    return 'Producto, stock y unidad son obligatorios';
+  }
+
+  const numericStock = Number(stock);
+  if (!Number.isFinite(numericStock) || numericStock <= 0) {
+    return 'El stock debe ser un número mayor a 0';
+  }
+
+  return null;
+}
+
+// ====== RUTAS ======
+
+// GET /api/inventario -> lista
 router.get('/', (req, res) => {
-  res.json({ data: inventario });
+  return res.json({ data: inventory });
 });
 
-// POST inventario (solo admin/almacen)
-router.post('/', (req, res) => {
-  const role = req.user?.role; // viene del token JWT
+// POST /api/inventario -> agregar/sumar producto
+router.post('/', requireInventoryRole, (req, res) => {
+  const { producto, stock, unidad } = req.body;
 
-  if (!['admin', 'almacen'].includes((role || '').toLowerCase())) {
-    return res.status(403).json({
-      error: 'Solo usuarios con rol admin o almacen pueden agregar productos.'
+  const error = validateInventoryInput(producto, stock, unidad);
+  if (error) {
+    return res.status(400).json({ error });
+  }
+
+  const numericStock = Number(stock);
+
+  // Si ya existe, sumamos stock
+  const existing = inventory.find(
+    (item) => item.producto.toLowerCase() === producto.toLowerCase()
+  );
+
+  if (existing) {
+    existing.stock += numericStock;
+    existing.unidad = unidad; // por si cambió la unidad
+  } else {
+    inventory.push({
+      producto,
+      stock: numericStock,
+      unidad
     });
   }
 
-  const { producto, stock, unidad } = req.body;
+  return res.status(201).json({
+    message: 'Producto registrado/actualizado correctamente',
+    data: inventory
+  });
+});
 
-  if (!producto || !unidad || typeof stock !== 'number') {
-    return res.status(400).json({ error: 'producto, stock y unidad son obligatorios.' });
+// PUT /api/inventario/:producto -> editar stock/unidad
+router.put('/:producto', requireInventoryRole, (req, res) => {
+  const productoParam = decodeURIComponent(req.params.producto);
+  const { stock, unidad } = req.body;
+
+  const error = validateInventoryInput(productoParam, stock, unidad);
+  if (error) {
+    return res.status(400).json({ error });
   }
 
-  const newItem = {
-    id: inventario.length + 1,
-    producto,
-    stock,
-    unidad
-  };
+  const numericStock = Number(stock);
 
-  inventario.push(newItem);
+  const existing = inventory.find(
+    (item) => item.producto.toLowerCase() === productoParam.toLowerCase()
+  );
 
-  return res.status(201).json({
-    message: 'Producto agregado al inventario.',
-    data: newItem
+  if (!existing) {
+    return res.status(404).json({ error: 'Producto no encontrado' });
+  }
+
+  existing.stock = numericStock;
+  existing.unidad = unidad;
+
+  return res.json({
+    message: 'Producto actualizado correctamente',
+    data: inventory
+  });
+});
+
+// DELETE /api/inventario/:producto -> eliminar
+router.delete('/:producto', requireInventoryRole, (req, res) => {
+  const productoParam = decodeURIComponent(req.params.producto);
+
+  const index = inventory.findIndex(
+    (item) => item.producto.toLowerCase() === productoParam.toLowerCase()
+  );
+
+  if (index === -1) {
+    return res.status(404).json({ error: 'Producto no encontrado' });
+  }
+
+  inventory.splice(index, 1);
+
+  return res.json({
+    message: 'Producto eliminado correctamente',
+    data: inventory
   });
 });
 

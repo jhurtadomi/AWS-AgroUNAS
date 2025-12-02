@@ -26,3 +26,12 @@ PS D:\8 CICLO\Desarrollo de Apps para la Nube\AgroUNAS\app\agromarket-api> aws e
 Login Succeeded
 PS D:\8 CICLO\Desarrollo de Apps para la Nube\AgroUNAS\app\agromarket-api> docker build -t agromarket-api:v1 .
 
+Outputs:
+
+eks_cluster_endpoint = "https://DD94C98E8BF0CDD87896CF4048607D83.yl4.us-east-1.eks.amazonaws.com"
+eks_cluster_name = "agromarket-eks-cluster"
+public_subnet_ids = [
+  "subnet-0859693a900e80c9e",
+  "subnet-064491d85227b3766",
+]
+vpc_id = "vpc-01c26141a23780a49"

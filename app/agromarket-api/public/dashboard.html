@@ -11,16 +11,19 @@
       --danger: #e63946;
       --bg: #f5f7fb;
       --text-main: #1b4332;
+      --border-soft: #e5e7eb;
     }
-    * {
-      box-sizing: border-box;
-    }
+
+    * { box-sizing: border-box; }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: var(--bg);
       margin: 0;
       padding: 1.5rem;
+      color: #222;
     }
+
     header {
       display: flex;
       flex-wrap: wrap;
@@ -29,60 +32,75 @@
       margin-bottom: 1.5rem;
       gap: 0.8rem;
     }
+
     h1 {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       color: var(--text-main);
       margin: 0;
     }
+
     .subtitle {
       font-size: 0.9rem;
       color: #555;
       margin-top: 0.2rem;
     }
+
     .user-info {
       font-size: 0.9rem;
-      color: #333;
       text-align: right;
     }
+
     .badge {
       display: inline-block;
-      padding: 0.15rem 0.5rem;
+      padding: 0.15rem 0.55rem;
       border-radius: 999px;
       font-size: 0.75rem;
       background: var(--primary-soft);
       color: var(--primary);
       margin-left: 0.3rem;
+      text-transform: lowercase;
     }
+
+    .badge.role-admin   { background: #ffe5ec; color: #d0004b; }
+    .badge.role-almacen { background: #e0fbff; color: #0077b6; }
+
     button {
-      padding: 0.4rem 0.7rem;
+      padding: 0.42rem 0.8rem;
       border-radius: 6px;
       border: none;
       cursor: pointer;
       font-size: 0.85rem;
+      transition: background 0.15s ease, transform 0.05s ease;
     }
+
+    button:active { transform: scale(0.98); }
+
     #logout-btn {
       background: var(--danger);
       color: white;
+      margin-top: 0.3rem;
     }
-    #logout-btn:hover {
-      background: #c71c30;
-    }
+
+    #logout-btn:hover { background: #c71c30; }
+
     .layout {
       display: grid;
       grid-template-columns: 2fr 3fr;
       gap: 1rem;
     }
+
     @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
+      .layout { grid-template-columns: 1fr; }
     }
+
     .card {
       background: #fff;
-      border-radius: 12px;
-      padding: 1rem 1.2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      border-radius: 14px;
+      padding: 1rem 1.2rem 1.2rem;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.15);
     }
+
     .card h2 {
       font-size: 1.1rem;
       margin-top: 0;
@@ -92,71 +110,195 @@
       align-items: center;
       gap: 0.4rem;
     }
+
     .tag {
       font-size: 0.7rem;
       background: #f1f3f5;
-      padding: 0.1rem 0.4rem;
+      padding: 0.1rem 0.5rem;
       border-radius: 999px;
       color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.9rem;
+      margin-top: 0.4rem;
     }
+
     th, td {
-      padding: 0.5rem 0.4rem;
-      border-bottom: 1px solid #eee;
+      padding: 0.5rem 0.45rem;
+      border-bottom: 1px solid var(--border-soft);
       text-align: left;
+      vertical-align: middle;
     }
+
     th {
-      background: #f1f3f5;
+      background: #f8fafc;
       font-weight: 600;
+      color: #374151;
     }
+
+    tr:last-child td { border-bottom: none; }
+
     .error {
       color: #b00020;
       font-size: 0.9rem;
-      margin-top: 0.5rem;
+      margin-top: 0.4rem;
     }
+
     .success {
       color: #2d6a4f;
       font-size: 0.85rem;
-      margin-top: 0.4rem;
+      margin-top: 0.35rem;
     }
+
     .form-grid {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr;
       gap: 0.6rem;
       margin-top: 0.6rem;
     }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      #add-product-btn { margin-top: 0.6rem; }
+    }
+
     label {
       font-size: 0.8rem;
-      color: #333;
+      color: #374151;
       display: block;
       margin-bottom: 0.2rem;
     }
+
     input {
       width: 100%;
       padding: 0.4rem 0.5rem;
       border-radius: 6px;
-      border: 1px solid #ccc;
+      border: 1px solid #cbd5e1;
       font-size: 0.85rem;
     }
+
+    input:focus {
+      outline: 2px solid var(--primary-soft);
+      outline-offset: 1px;
+      border-color: var(--primary);
+    }
+
     #add-product-btn {
       background: var(--primary);
       color: white;
       width: 100%;
-      margin-top: 1.3rem;
+      margin-top: 1.25rem;
     }
+
     #add-product-btn:disabled {
       background: #adb5bd;
       cursor: not-allowed;
     }
+
     .small-hint {
       font-size: 0.78rem;
-      color: #666;
+      color: #6b7280;
       margin-top: 0.3rem;
     }
+
+    .actions-col { white-space: nowrap; }
+
+    .btn-small {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      margin-right: 0.2rem;
+    }
+
+    .btn-small.btn-edit {
+      border-color: #2d6a4f33;
+      color: #166534;
+    }
+
+    .btn-small.btn-delete {
+      border-color: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .btn-small:hover { background: #e5e7eb; }
+
+    .muted {
+      color: #94a3b8;
+      font-size: 0.8rem;
+    }
+
+    /* -------- MODALES BONITOS -------- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 1rem 1.2rem 1rem;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 0.4rem 0;
+      color: #111827;
+    }
+
+    .modal-body {
+      font-size: 0.85rem;
+      color: #4b5563;
+      margin-bottom: 0.6rem;
+    }
+
+    .modal-footer {
+      margin-top: 0.8rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.4rem;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-secondary:hover { background: #d1d5db; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover { background: #1b4332; }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover { background: #c71c30; }
+
+    .modal label { margin-top: 0.3rem; }
+
+    .hidden { display: none; }
   </style>
 </head>
 <body>
@@ -189,7 +331,7 @@
           </tr>
         </thead>
         <tbody id="precios-body">
-          <tr><td colspan="3">Cargando...</td></tr>
+          <tr><td colspan="3">Cargando precios...</td></tr>
         </tbody>
       </table>
     </div>
@@ -200,6 +342,7 @@
         Inventario
         <span class="tag" id="inventario-tag">Admin / Almacén</span>
       </h2>
+
       <div id="inventario-error" class="error"></div>
       <div id="inventario-success" class="success"></div>
 
@@ -209,16 +352,17 @@
             <th>Producto</th>
             <th>Stock</th>
             <th>Unidad</th>
+            <th class="actions-header">Acciones</th>
           </tr>
         </thead>
         <tbody id="inventario-body">
-          <tr><td colspan="3">Cargando...</td></tr>
+          <tr><td colspan="4">Cargando inventario...</td></tr>
         </tbody>
       </table>
 
       <div id="inventario-form-wrapper">
         <hr style="margin: 0.9rem 0;" />
-        <h3 style="font-size:0.95rem; margin:0 0 0.4rem 0; color:#333;">Agregar producto al inventario</h3>
+        <h3 style="font-size:0.95rem; margin:0 0 0.4rem 0; color:#111827;">Agregar producto al inventario</h3>
         <div class="small-hint">
           Solo usuarios con rol <b>admin</b> o <b>almacen</b> pueden registrar stock.
         </div>
@@ -229,7 +373,7 @@
           </div>
           <div>
             <label for="prod-stock">Stock</label>
-            <input id="prod-stock" type="number" min="0" placeholder="Ej: 120" />
+            <input id="prod-stock" type="number" min="1" placeholder="Ej: 120" />
           </div>
           <div>
             <label for="prod-unidad">Unidad</label>
@@ -241,47 +385,108 @@
     </div>
   </div>
 
+  <!-- MODAL EDITAR PRODUCTO -->
+  <div id="modal-edit-overlay" class="modal-overlay hidden">
+    <div class="modal">
+      <h3 class="modal-title">Editar producto</h3>
+      <div class="modal-body">
+        <div style="margin-bottom:0.3rem;">
+          Producto: <b id="modal-edit-product-name"></b>
+        </div>
+        <label for="modal-edit-stock">Nuevo stock (debe ser &gt; 0)</label>
+        <input id="modal-edit-stock" type="number" min="1" />
+        <label for="modal-edit-unit">Unidad</label>
+        <input id="modal-edit-unit" type="text" />
+        <div id="modal-edit-error" class="error"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-edit-cancel">Cancelar</button>
+        <button class="btn-primary" id="modal-edit-save">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ELIMINAR PRODUCTO -->
+  <div id="modal-delete-overlay" class="modal-overlay hidden">
+    <div class="modal">
+      <h3 class="modal-title">Eliminar producto</h3>
+      <div class="modal-body">
+        ¿Seguro que deseas eliminar <b id="modal-delete-product-name"></b> del inventario?
+        <div class="small-hint">Esta acción no se puede deshacer.</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-delete-cancel">Cancelar</button>
+        <button class="btn-danger" id="modal-delete-confirm">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // ---------- Datos básicos de sesión ----------
     const token = localStorage.getItem('agromarket_token');
-    const user = localStorage.getItem('agromarket_user');
-    const role = localStorage.getItem('agromarket_role');
+    const user  = localStorage.getItem('agromarket_user');
+    const role  = (localStorage.getItem('agromarket_role') || '').toLowerCase();
 
-    const userLabel = document.getElementById('user-label');
-    const roleBadge = document.getElementById('role-badge');
-    const logoutBtn = document.getElementById('logout-btn');
+    const userLabel  = document.getElementById('user-label');
+    const roleBadge  = document.getElementById('role-badge');
+    const logoutBtn  = document.getElementById('logout-btn');
 
-    const preciosBody = document.getElementById('precios-body');
-    const pricesError = document.getElementById('prices-error');
+    const preciosBody      = document.getElementById('precios-body');
+    const pricesError      = document.getElementById('prices-error');
 
-    const inventarioBody = document.getElementById('inventario-body');
-    const inventarioError = document.getElementById('inventario-error');
-    const inventarioSuccess = document.getElementById('inventario-success');
+    const inventarioBody   = document.getElementById('inventario-body');
+    const inventarioError  = document.getElementById('inventario-error');
+    const inventarioSuccess= document.getElementById('inventario-success');
     const inventarioFormWrapper = document.getElementById('inventario-form-wrapper');
-    const addProductBtn = document.getElementById('add-product-btn');
+    const addProductBtn    = document.getElementById('add-product-btn');
 
     const prodNombre = document.getElementById('prod-nombre');
-    const prodStock = document.getElementById('prod-stock');
+    const prodStock  = document.getElementById('prod-stock');
     const prodUnidad = document.getElementById('prod-unidad');
 
-    // Si no hay token -> fuera
+    const puedeEditarInventario = ['admin', 'almacen'].includes(role);
+
+    // Elementos del modal de edición
+    const editOverlay   = document.getElementById('modal-edit-overlay');
+    const editProdName  = document.getElementById('modal-edit-product-name');
+    const editStockInput= document.getElementById('modal-edit-stock');
+    const editUnitInput = document.getElementById('modal-edit-unit');
+    const editError     = document.getElementById('modal-edit-error');
+    const editCancelBtn = document.getElementById('modal-edit-cancel');
+    const editSaveBtn   = document.getElementById('modal-edit-save');
+
+    // Elementos del modal de eliminación
+    const deleteOverlay   = document.getElementById('modal-delete-overlay');
+    const deleteProdName  = document.getElementById('modal-delete-product-name');
+    const deleteCancelBtn = document.getElementById('modal-delete-cancel');
+    const deleteConfirmBtn= document.getElementById('modal-delete-confirm');
+
+    let editingProductEncoded = null;
+    let deletingProductEncoded= null;
+
+    // Si no hay token, fuera al login
     if (!token) {
       window.location.href = '/';
     }
 
     // Mostrar usuario y rol
-    if (user) userLabel.textContent = user;
+    userLabel.textContent = user || '(desconocido)';
     if (role) {
       roleBadge.textContent = role;
+      roleBadge.classList.add(
+        role === 'admin'   ? 'role-admin'   :
+        role === 'almacen' ? 'role-almacen' : ''
+      );
     } else {
       roleBadge.textContent = 'sin rol';
     }
 
-    // Si no es admin ni almacen, deshabilitar formulario de inventario
-    const puedeEditarInventario = ['admin', 'almacen'].includes((role || '').toLowerCase());
+    // Deshabilitar acciones de inventario si solo consulta
     if (!puedeEditarInventario) {
       inventarioFormWrapper.style.opacity = '0.5';
       addProductBtn.disabled = true;
-      inventarioError.textContent = 'Tu rol solo permite consultar; no puedes agregar productos.';
+      inventarioError.textContent = 'Tu rol solo permite consultar; no puedes agregar ni modificar inventario.';
+      document.querySelectorAll('.actions-header').forEach(th => th.style.display = 'none');
     }
 
     logoutBtn.addEventListener('click', () => {
@@ -291,13 +496,34 @@
       window.location.href = '/';
     });
 
+    // ---------- Utilidades para API ----------
+    function getJSONData(resp) {
+      return resp.data && Array.isArray(resp.data) ? resp.data :
+             Array.isArray(resp) ? resp : [];
+    }
+
+    function mapPrecio(item) {
+      return {
+        producto: item.producto ?? item.product ?? '',
+        precio:   item.precio,
+        unidad:   item.unidad ?? item.unit ?? ''
+      };
+    }
+
+    function mapInventario(item) {
+      return {
+        producto: item.producto ?? item.product ?? '',
+        stock:    item.stock,
+        unidad:   item.unidad ?? item.unit ?? ''
+      };
+    }
+
+    // ---------- Cargar precios ----------
     async function cargarPrecios() {
+      pricesError.textContent = '';
       try {
         const res = await fetch('/api/precios', {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + token
-          }
+          headers: { 'Authorization': 'Bearer ' + token }
         });
 
         if (!res.ok) {
@@ -305,8 +531,9 @@
           return;
         }
 
-        const data = await res.json();
-        const precios = data.data || [];
+        const raw = await res.json();
+        const precios = getJSONData(raw).map(mapPrecio);
+
         preciosBody.innerHTML = '';
 
         if (precios.length === 0) {
@@ -329,13 +556,12 @@
       }
     }
 
+    // ---------- Cargar inventario ----------
     async function cargarInventario() {
+      inventarioError.textContent = '';
       try {
         const res = await fetch('/api/inventario', {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + token
-          }
+          headers: { 'Authorization': 'Bearer ' + token }
         });
 
         if (!res.ok) {
@@ -343,40 +569,212 @@
           return;
         }
 
-        const data = await res.json();
-        const items = data.data || [];
-        inventarioBody.innerHTML = '';
+        const raw = await res.json();
+        const items = getJSONData(raw).map(mapInventario);
 
-        if (items.length === 0) {
-          inventarioBody.innerHTML = '<tr><td colspan="3">Sin productos en inventario</td></tr>';
-          return;
-        }
-
-        items.forEach(item => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${item.producto}</td>
-            <td>${item.stock}</td>
-            <td>${item.unidad}</td>
-          `;
-          inventarioBody.appendChild(tr);
-        });
+        renderInventario(items);
       } catch (err) {
         console.error(err);
         inventarioError.textContent = 'Error de conexión con el servidor.';
       }
     }
 
+    function renderInventario(items) {
+      inventarioBody.innerHTML = '';
+
+      if (!items.length) {
+        inventarioBody.innerHTML = '<tr><td colspan="4">Sin productos en inventario</td></tr>';
+        return;
+      }
+
+      items.forEach(item => {
+        const tr = document.createElement('tr');
+        const encodedName = encodeURIComponent(item.producto);
+
+        tr.innerHTML = `
+          <td>${item.producto}</td>
+          <td>${item.stock}</td>
+          <td>${item.unidad}</td>
+          <td class="actions-col">
+            ${
+              puedeEditarInventario
+                ? `
+                  <button class="btn-small btn-edit"
+                          data-product="${encodedName}"
+                          data-stock="${item.stock}"
+                          data-unit="${item.unidad}">
+                    Editar
+                  </button>
+                  <button class="btn-small btn-delete"
+                          data-product="${encodedName}">
+                    Eliminar
+                  </button>
+                `
+                : '<span class="muted">Solo lectura</span>'
+            }
+          </td>
+        `;
+
+        inventarioBody.appendChild(tr);
+      });
+
+      if (puedeEditarInventario) {
+        attachInventoryActions();
+      }
+    }
+
+    // ---------- Modales ----------
+    function openEditModal(encoded, name, stock, unit) {
+      editingProductEncoded = encoded;
+      editProdName.textContent = name;
+      editStockInput.value = stock;
+      editUnitInput.value = unit;
+      editError.textContent = '';
+      editOverlay.classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      editingProductEncoded = null;
+      editOverlay.classList.add('hidden');
+    }
+
+    function openDeleteModal(encoded, name) {
+      deletingProductEncoded = encoded;
+      deleteProdName.textContent = name;
+      deleteOverlay.classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+      deletingProductEncoded = null;
+      deleteOverlay.classList.add('hidden');
+    }
+
+    editCancelBtn.addEventListener('click', closeEditModal);
+    deleteCancelBtn.addEventListener('click', closeDeleteModal);
+
+    // Cerrar modales clickeando fondo
+    editOverlay.addEventListener('click', (e) => {
+      if (e.target === editOverlay) closeEditModal();
+    });
+    deleteOverlay.addEventListener('click', (e) => {
+      if (e.target === deleteOverlay) closeDeleteModal();
+    });
+
+    // ---------- Acciones editar / eliminar ----------
+    function attachInventoryActions() {
+      const tokenHeader = { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' };
+
+      document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const enc   = btn.dataset.product;
+          const name  = decodeURIComponent(enc);
+          const stock = btn.dataset.stock;
+          const unit  = btn.dataset.unit;
+          openEditModal(enc, name, stock, unit);
+        });
+      });
+
+      document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const enc  = btn.dataset.product;
+          const name = decodeURIComponent(enc);
+          openDeleteModal(enc, name);
+        });
+      });
+
+      // Guardar cambios de edición
+      editSaveBtn.onclick = async () => {
+        if (!editingProductEncoded) return;
+
+        const productEncoded = editingProductEncoded;
+        const product = decodeURIComponent(productEncoded);
+        const newStock = Number(editStockInput.value || '0');
+        const newUnit  = (editUnitInput.value || '').trim();
+
+        editError.textContent = '';
+        inventarioError.textContent = '';
+        inventarioSuccess.textContent = '';
+
+        if (!Number.isFinite(newStock) || newStock <= 0) {
+          editError.textContent = 'El stock debe ser un número mayor a 0.';
+          return;
+        }
+        if (!newUnit) {
+          editError.textContent = 'La unidad es obligatoria.';
+          return;
+        }
+
+        try {
+          const res = await fetch(`/api/inventario/${productEncoded}`, {
+            method: 'PUT',
+            headers: tokenHeader,
+            body: JSON.stringify({ producto: product, stock: newStock, unidad: newUnit })
+          });
+
+          const data = await res.json();
+          if (!res.ok) {
+            editError.textContent = data.error || 'Error al actualizar producto.';
+            return;
+          }
+
+          inventarioSuccess.textContent = data.message || 'Producto actualizado correctamente.';
+          const items = getJSONData(data).map(mapInventario);
+          renderInventario(items);
+          closeEditModal();
+        } catch (err) {
+          console.error(err);
+          editError.textContent = 'Error de conexión al actualizar.';
+        }
+      };
+
+      // Confirmar eliminación
+      deleteConfirmBtn.onclick = async () => {
+        if (!deletingProductEncoded) return;
+
+        const productEncoded = deletingProductEncoded;
+
+        inventarioError.textContent = '';
+        inventarioSuccess.textContent = '';
+
+        try {
+          const res = await fetch(`/api/inventario/${productEncoded}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+
+          const data = await res.json();
+          if (!res.ok) {
+            inventarioError.textContent = data.error || 'Error al eliminar producto.';
+            return;
+          }
+
+          inventarioSuccess.textContent = data.message || 'Producto eliminado correctamente.';
+          const items = getJSONData(data).map(mapInventario);
+          renderInventario(items);
+          closeDeleteModal();
+        } catch (err) {
+          console.error(err);
+          inventarioError.textContent = 'Error de conexión al eliminar.';
+        }
+      };
+    }
+
+    // ---------- Agregar producto ----------
     async function agregarProducto() {
       inventarioError.textContent = '';
       inventarioSuccess.textContent = '';
 
       const nombre = (prodNombre.value || '').trim();
-      const stock = parseInt(prodStock.value || '0', 10);
+      const stock  = Number(prodStock.value || '0');
       const unidad = (prodUnidad.value || '').trim();
 
-      if (!nombre || !unidad || isNaN(stock)) {
+      if (!nombre || !unidad || !Number.isFinite(stock)) {
         inventarioError.textContent = 'Completa nombre, stock y unidad.';
+        return;
+      }
+
+      if (stock <= 0) {
+        inventarioError.textContent = 'El stock debe ser un número mayor a 0.';
         return;
       }
 
@@ -390,20 +788,20 @@
           body: JSON.stringify({ producto: nombre, stock, unidad })
         });
 
+        const data = await res.json();
+
         if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
           inventarioError.textContent = data.error || 'No se pudo agregar el producto.';
           return;
         }
 
-        const data = await res.json();
         inventarioSuccess.textContent = data.message || 'Producto agregado correctamente.';
         prodNombre.value = '';
-        prodStock.value = '';
+        prodStock.value  = '';
         prodUnidad.value = '';
 
-        // recargar tabla
-        cargarInventario();
+        const items = getJSONData(data).map(mapInventario);
+        renderInventario(items);
       } catch (err) {
         console.error(err);
         inventarioError.textContent = 'Error de conexión al guardar.';
@@ -416,7 +814,7 @@
       }
     });
 
-    // Cargar datos al inicio
+    // ---------- Carga inicial ----------
     cargarPrecios();
     cargarInventario();
   </script>
