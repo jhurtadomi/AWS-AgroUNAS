@@ -38,7 +38,8 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-      IMAGE_TAG: ${{ github.sha }}
+      IMAGE_TAG: v3                       # mismo tag que usas en deployment.yaml
+      EKS_CLUSTER_NAME: agromarket-eks-cluster
 
     steps:
       - name: Checkout del código
@@ -77,3 +78,14 @@ jobs:
       - name: Terraform apply
         working-directory: infra
         run: terraform apply -input=false -auto-approve tfplan
+
+      - name: Configurar kubeconfig para EKS
+        run: aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER_NAME
+
+      - name: Aplicar manifests de Kubernetes
+        run: |
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/configmap.yaml -n agromarket
+          kubectl apply -f k8s/secret-auth.yaml -n agromarket
+          kubectl apply -f k8s/deployment.yaml -n agromarket
+          kubectl apply -f k8s/service-loadbalancer.yaml -n agromarket
