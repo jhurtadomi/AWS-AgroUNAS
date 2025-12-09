@@ -72,9 +72,7 @@ jobs:
 
       - name: Terraform plan
         working-directory: infra
-        run: terraform plan -input=false -out=tfplan \
-            -var=image_tag=${{ env.IMAGE_TAG }} \
-            -var=image_repo=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}
+        run: terraform plan -input=false -out=tfplan -var=image_tag=${{ env.IMAGE_TAG }} -var=image_repo=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}
 
       - name: Terraform apply
         working-directory: infra
