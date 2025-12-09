@@ -6,12 +6,21 @@ function normalizeIp(ip) {
   return ip;
 }
 
-function isIpAllowed(requestIp, allowedIp) {
-  if (!allowedIp || allowedIp === '0.0.0.0/0' || allowedIp.toLowerCase() === 'any') {
-    return true; // sin restricción real (demo)
+function isIpAllowed(requestIp, allowedIps) {
+  if (!allowedIps || allowedIps === '0.0.0.0/0' || allowedIps === 'any') {
+    return true; // Sin restricción real (demo)
   }
+
+  // Asegurarse de que allowedIps sea un array
+  if (Array.isArray(allowedIps)) {
+    // Normalizamos y comparamos la IP de la solicitud con las IPs permitidas
+    const normalizedRequestIp = normalizeIp(requestIp).toLowerCase();
+    return allowedIps.some((allowedIp) => normalizeIp(allowedIp).toLowerCase() === normalizedRequestIp);
+  }
+
+  // Si `allowedIps` no es un array, se maneja como una sola IP
   const normalized = normalizeIp(requestIp);
-  return normalized === allowedIp;
+  return normalized === allowedIps;
 }
 
 module.exports = {

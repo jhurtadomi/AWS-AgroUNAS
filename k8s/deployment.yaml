@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: agromarket-api
-          image: 600222957143.dkr.ecr.us-east-1.amazonaws.com/agromarket-api:v2
+          image: 600222957143.dkr.ecr.us-east-1.amazonaws.com/agromarket-api:v3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000

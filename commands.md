@@ -20,9 +20,7 @@ PS D:\8 CICLO\Desarrollo de Apps para la Nube\AgroUNAS\app\agromarket-api> aws e
     }
 }
 
-PS D:\8 CICLO\Desarrollo de Apps para la Nube\AgroUNAS\app\agromarket-api> aws ecr get-login-password --region $REGION | docker login `
->>   --username AWS `
->>   --password-stdin $ECR_URI
+PS D:\8 CICLO\Desarrollo de Apps para la Nube\AgroUNAS\app\agromarket-api> aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_URI
 Login Succeeded
 PS D:\8 CICLO\Desarrollo de Apps para la Nube\AgroUNAS\app\agromarket-api> docker build -t agromarket-api:v1 .
 
