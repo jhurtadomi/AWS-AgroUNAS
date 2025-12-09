@@ -27,3 +27,14 @@ variable "cluster_version" {
   type        = string
   default     = "1.28"
 }
+
+# 🔹 NUEVO: variables que estamos pasando desde GitHub Actions
+variable "image_tag" {
+  description = "Tag de la imagen Docker a desplegar"
+  type        = string
+}
+
+variable "image_repo" {
+  description = "URI del repositorio ECR + nombre del repositorio"
+  type        = string
+}
