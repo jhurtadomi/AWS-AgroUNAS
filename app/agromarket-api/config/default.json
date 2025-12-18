@@ -10,7 +10,7 @@
       "web-admin": "AGRO-ADMIN-KEY-001",
       "app-movil": "AGRO-MOBILE-KEY-001"
     },
-    "allowedIp": "0.0.0.0/0",
+    "allowedIp": ["0.0.0.0/0", "::/0", "127.0.0.1", "::1"],
     "tokenSecret": "super-secret-token",
     "tokenTTLSeconds": 3600
   }

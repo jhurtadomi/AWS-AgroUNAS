@@ -1,4 +1,3 @@
-#Deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,10 +15,13 @@ spec:
     spec:
       containers:
         - name: agromarket-api
-          image: 600222957143.dkr.ecr.us-east-1.amazonaws.com/agromarket-api:v3
-          imagePullPolicy: IfNotPresent
+          image: 600222957143.dkr.ecr.us-east-1.amazonaws.com/agromarket-api:v6 # <-- ¡NUEVA VERSIÓN!
+          imagePullPolicy: Always # Asegura que tome la nueva imagen
           ports:
             - containerPort: 3000
+          env: # <-- AÑADIDO: Variables de entorno explícitas
+            - name: DISABLE_IP_CHECK
+              value: "true" # <-- ESTO DESHABILITA LA VALIDACIÓN DE IP
           envFrom:
             - configMapRef:
                 name: agromarket-config

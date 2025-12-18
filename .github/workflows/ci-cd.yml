@@ -1,5 +1,7 @@
-name: CI/CD Agromarket API
+# Nombre del flujo de trabajo
+name: CI/CD Agromarket API (Solo Pruebas)
 
+# Eventos que disparan el flujo
 on:
   push:
     branches: [ main ]
@@ -7,7 +9,12 @@ on:
     branches: [ main ]
 
 jobs:
+  # ======================================================================
+  # JOB 1: test (Pruebas Unitarias/Integración)
+  # Este es el único Job que se ejecutará.
+  # ======================================================================
   test:
+    name: Ejecutar Pruebas de Calidad
     runs-on: ubuntu-latest
 
     defaults:
@@ -22,55 +29,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm' # Optimiza la velocidad cacheando dependencias
+          cache-dependency-path: app/agromarket-api/package-lock.json
 
       - name: Instalar dependencias
         run: npm ci
 
       - name: Ejecutar pruebas (Jest/Supertest)
+        # Esto buscará el script "test" en tu package.json
         run: npm test
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
-
-    env:
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-      IMAGE_TAG: v3                       # o github.sha si actualizas el Deployment
-      EKS_CLUSTER_NAME: agromarket-eks-cluster
-
-    steps:
-      - name: Checkout del código
-        uses: actions/checkout@v4
-
-      - name: Configurar credenciales AWS
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Login en Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Build & Push Docker image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        run: |
-          cd app/agromarket-api
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-      - name: Configurar kubeconfig para EKS
-        run: aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER_NAME
-
-      - name: Aplicar manifests de Kubernetes
-        run: |
-          kubectl apply -f k8s/namespace.yaml
-          kubectl apply -f k8s/configmap.yaml -n agromarket
-          kubectl apply -f k8s/secret-auth.yaml -n agromarket
-          kubectl apply -f k8s/deployment.yaml -n agromarket
-          kubectl apply -f k8s/service-loadbalancer.yaml -n agromarket
+  # ======================================================================
+  # JOB 2: deploy (DESACTIVADO TEMPORALMENTE)
+  # He comentado este bloque para que no intente conectar a AWS.
+  # ======================================================================
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main' && success()
+  #   steps:
+  #     - name: Skip Deploy
+  #       run: echo "Despliegue omitido. Solo ejecución de pruebas."

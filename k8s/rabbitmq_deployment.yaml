@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  namespace: agromarket
+spec:
+  replicas: 1  # Puedes aumentar el número de réplicas si lo deseas
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:management  # Imagen con la interfaz de gestión incluida
+          ports:
+            - containerPort: 5672  # Puerto por defecto de RabbitMQ
+            - containerPort: 15672  # Puerto para la interfaz de administración (opcional)
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: agromarket-auth
+                  key: AUTH_USERNAME
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: agromarket-auth
+                  key: AUTH_PASSWORD
